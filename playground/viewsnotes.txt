@@ -1,0 +1,26 @@
+from django.shortcuts import render
+# from django.core.mail import EmailMessage, send_mail, mail_admins, BadHeaderError
+# from templated_mail.mail import BaseEmailMessage
+from .tasks import notify_customers
+
+def say_hello(request):
+    # Changed the try block code with the implentation of celery workers
+    notify_customers.delay('Hello!')
+
+
+
+    # try:
+    #     message = BaseEmailMessage(
+    #         template_name='emails/hello.html',
+    #         context={'name': 'Josh'}
+    #     )
+    #     message.send(['john@josh.com'])
+        
+    #     # send_mail('subject', 'message', html_message='message', 'info@josh.com', ['mittykabe@gmail.com'])
+    #     # mail_admins('subject', 'message', html_message='message')
+    #     # message = EmailMessage('subject', 'message', 'from@josh.com', ['john@josh.com'])
+    #     # message.attach_file('playground/static/images/spidey.jpg')
+    #     # message.send()
+    # except BadHeaderError:
+    #     pass
+    return render(request, 'hello.html', {'name': 'Mosh'})
